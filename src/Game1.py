@@ -4,7 +4,7 @@ import json
 import time
 
 
-def get_api_token(filename = 'src/config.json', key = 'token'):
+def get_api_token(filename = '/src/config.json', key = 'token'):
     return json.load(open(filename))[key]
 
 bot = telebot.TeleBot(get_api_token())
@@ -12,17 +12,17 @@ bot = telebot.TeleBot(get_api_token())
 commands = ['/start', '/about']
 
 # Function for get the GAMEMAP (Array of vertexes)
-def get_map(filename = 'src/GAMEMAP.json'):
+def get_map(filename = '/src/GAMEMAP.json'):
     return json.load(open(filename))
 
 
 # Function for GET current position on the GAMEMAP (it gets value of "pos.json")
 def get_pos(user_id):
-    return json.load(open('src/pos.json'))[user_id]
+    return json.load(open('/src/pos.json'))[user_id]
 
 
 # Function for CHANGE current position on the GAMEMAP according to response from user (it resets position after the ending)
-def change_pos(user_id, message, filename = 'src/pos.json'):
+def change_pos(user_id, message, filename = '/src/pos.json'):
     with open (filename, 'rt') as _file:
         pos_array = json.load(_file)
     pos_array[user_id] = get_map()[get_pos(user_id)][0][message.text]
@@ -30,14 +30,14 @@ def change_pos(user_id, message, filename = 'src/pos.json'):
         json.dump(pos_array, _file, indent=2)
 
 # Function for add new user in database of positions
-def add_user_pos(user_id, filename = 'src/pos.json', encoding = 'utf-8'):
+def add_user_pos(user_id, filename = '/src/pos.json', encoding = 'utf-8'):
     with open (filename, 'rt') as pos:
         user_pos = json.load(pos)
     user_pos[user_id] = 0
     with open(filename, 'wt') as pos:
         json.dump(user_pos, pos, indent=2)
 
-def remove_user_pos(user_id, filename = 'src/pos.json', encoding = 'utf-8'):
+def remove_user_pos(user_id, filename = '/src/pos.json', encoding = 'utf-8'):
     with open(filename, 'rt') as _file:
         user_pos = json.load(_file)
     user_pos.pop(user_id)
